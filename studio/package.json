@@ -1,0 +1,28 @@
+{
+	"name": "skt-studio",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "sanity dev",
+		"build": "sanity build",
+		"deploy": "sanity deploy",
+		"typecheck": "tsc --noEmit",
+		"seed": "tsx --env-file=.env seed/seed.ts"
+	},
+	"dependencies": {
+		"@sanity/icons": "^5.2.2",
+		"@sanity/client": "^8.6.2",
+		"@sanity/vision": "^6.15.0",
+		"react": "^19.2.2",
+		"react-dom": "^19.2.2",
+		"sanity": "^6.15.0",
+		"styled-components": "^6.1.15"
+	},
+	"devDependencies": {
+		"@types/node": "^24.0.0",
+		"@types/react": "^19.2.0",
+		"tsx": "^4.20.0",
+		"typescript": "^5.9.0"
+	}
+}

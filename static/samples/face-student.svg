@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1016 640" width="1016" height="640">
+<rect width="1016" height="640" fill="#fbf7f0"/>
+<rect width="1016" height="132" fill="#6d1d3c"/>
+<rect y="132" width="1016" height="10" fill="#d9a441"/>
+<circle cx="112" cy="66" r="40" fill="none" stroke="#d9a441" stroke-width="6"/>
+<path d="M92 80 L112 44 L132 80 Z" fill="#d9a441"/>
+<text x="176" y="62" font-family="Georgia, serif" font-weight="700" font-size="38" fill="#fff">Coromandel Institute</text>
+<text x="176" y="104" font-family="Georgia, serif" font-size="26" fill="#f1dfb6">of Technology · Chennai</text>
+<rect x="64" y="186" width="220" height="276" rx="10" fill="#efe6d6"/>
+<circle cx="174" cy="286" r="58" fill="#d8c3a0"/>
+<path d="M84 462 C 96 390 136 362 174 362 C 212 362 252 390 264 462 Z" fill="#d8c3a0"/>
+<text x="330" y="232" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#8a7a66">STUDENT</text>
+<text x="330" y="284" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="48" fill="#2b1a12">Arjun Selvam</text>
+<text x="330" y="336" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#5a4a3a">B.E. Electronics &amp; Communication</text>
+<text x="330" y="400" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#8a7a66">Roll no.</text>
+<text x="330" y="436" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="30" fill="#2b1a12">CIT/ECE/2026/117</text>
+<text x="640" y="400" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#8a7a66">Valid till</text>
+<text x="640" y="436" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="30" fill="#2b1a12">May 2030</text>
+<rect y="520" width="1016" height="120" fill="#6d1d3c"/>
+<rect x="64" y="554" width="520" height="52" rx="6" fill="#fff" opacity=".12"/>
+<text x="84" y="590" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#f1dfb6">Library · Labs · Transport</text>
+</svg>

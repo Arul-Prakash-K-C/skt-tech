@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<rect width="1200" height="800" fill="#d9e0e6"/>
+<g id="c">
+<rect width="236" height="149" rx="12" fill="#fff"/>
+<rect width="236" height="44" rx="12" fill="#07719a"/><rect y="32" width="236" height="12" fill="#07719a"/>
+<rect x="16" y="58" width="52" height="70" rx="6" fill="#d5dbe0"/>
+<rect x="82" y="64" width="110" height="11" rx="5" fill="#0f2233"/><rect x="82" y="84" width="76" height="9" rx="4" fill="#7a8793"/><rect x="82" y="102" width="92" height="9" rx="4" fill="#b9c3cb"/>
+</g>
+<use href="#c" x="40" y="40"/><use href="#c" x="316" y="40"/><use href="#c" x="592" y="40"/><use href="#c" x="868" y="40"/>
+<use href="#c" x="40" y="229"/><use href="#c" x="316" y="229"/><use href="#c" x="592" y="229"/><use href="#c" x="868" y="229"/>
+<use href="#c" x="40" y="418"/><use href="#c" x="316" y="418"/><use href="#c" x="592" y="418"/><use href="#c" x="868" y="418"/>
+<use href="#c" x="40" y="607"/><use href="#c" x="316" y="607"/><use href="#c" x="592" y="607"/><use href="#c" x="868" y="607"/>
+</svg>

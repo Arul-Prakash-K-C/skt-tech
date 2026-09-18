@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<ellipse cx="400" cy="512" rx="170" ry="16" fill="#0f2233" opacity=".08"/>
+<g transform="translate(400 300)">
+<rect x="-128" y="-190" width="256" height="380" rx="22" fill="#dfe8ee" opacity=".7" stroke="#b9c3cb" stroke-width="3"/>
+<rect x="-34" y="-172" width="68" height="16" rx="8" fill="#fff" stroke="#b9c3cb" stroke-width="3"/>
+<g transform="translate(-108 -130)">
+<rect width="216" height="300" rx="14" fill="#fff"/>
+<rect width="216" height="70" rx="14" fill="#b8235a"/><rect y="56" width="216" height="14" fill="#b8235a"/>
+<circle cx="108" cy="126" r="40" fill="#d5dbe0"/>
+<rect x="48" y="186" width="120" height="12" rx="6" fill="#0f2233"/>
+<rect x="68" y="208" width="80" height="9" rx="4" fill="#7a8793"/>
+<rect x="30" y="248" width="156" height="26" rx="3" fill="#e9edf0"/>
+</g>
+<rect x="-128" y="-190" width="256" height="380" rx="22" fill="url(#s)"/>
+</g>
+<defs><linearGradient id="s" x1="0" y1="0" x2="1" y2="1"><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".42" stop-color="#fff" stop-opacity=".55"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+</svg>

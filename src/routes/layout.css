@@ -1,0 +1,309 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/archivo/wdth.css';
+
+/* ---------------------------------------------------------------------------
+   SKT design tokens
+   The CR80 card (85.6 × 54 mm, ratio 1.586) is the layout unit; the dye-sub
+   ribbon panels (Y, M, C, K) are the colour vocabulary.
+--------------------------------------------------------------------------- */
+@theme {
+	--font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+
+	/* Ink & stock */
+	--color-ink: #0f2233;
+	--color-ink-2: #2a3b4b;
+	--color-muted: #4e5d6b;
+	--color-subtle: #7a8793;
+	--color-line: #d5dbe0;
+	--color-line-strong: #b9c3cb;
+	--color-paper: #f3f5f6;
+	--color-stock: #ffffff;
+	--color-shade: #e8ecef;
+
+	/* Process colours */
+	--color-cyan: #07719a;
+	--color-cyan-strong: #055a7b;
+	--color-cyan-soft: #e3f1f7;
+	--color-magenta: #b8235a;
+	--color-magenta-soft: #fbe8ef;
+	--color-yellow: #f4c20d;
+	--color-key: #0f2233;
+	--color-ok: #1f7a4d;
+	--color-ok-soft: #e4f3ea;
+	--color-warn: #9a5b00;
+	--color-warn-soft: #fbf0dc;
+
+	/* Radius hierarchy: card corners echo the CR80 3.18 mm corner */
+	--radius-xs: 3px;
+	--radius-sm: 6px;
+	--radius-card: 12px;
+	--radius-lg: 18px;
+
+	--shadow-lift: 0 1px 2px rgb(15 34 51 / 0.06), 0 8px 24px -12px rgb(15 34 51 / 0.18);
+	--shadow-float: 0 24px 60px -24px rgb(15 34 51 / 0.35);
+
+	/* Motion */
+	--ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+	--aspect-card: 1.586;
+
+	--breakpoint-xs: 26rem;
+	--breakpoint-3xl: 112rem;
+}
+
+:root {
+	--dur-1: 120ms;
+	--dur-2: 220ms;
+	--dur-3: 380ms;
+	--dur-4: 700ms;
+	--gutter: clamp(1rem, 4vw, 2.5rem);
+	--header-h: 4.25rem;
+	color-scheme: light;
+}
+
+@layer base {
+	html {
+		-webkit-text-size-adjust: 100%;
+		text-rendering: optimizeLegibility;
+		scroll-padding-top: calc(var(--header-h) + 1rem);
+	}
+
+	body {
+		@apply bg-paper font-sans text-ink antialiased;
+		font-size: 1rem;
+		line-height: 1.6;
+		font-variation-settings: 'wdth' 100;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		@apply text-ink;
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	::selection {
+		background: var(--color-cyan);
+		color: white;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-cyan);
+		outline-offset: 3px;
+		border-radius: var(--radius-xs);
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+
+	[hidden] {
+		display: none !important;
+	}
+}
+
+@layer components {
+	/* Page container */
+	.shell {
+		width: 100%;
+		max-width: 84rem;
+		margin-inline: auto;
+		padding-inline: var(--gutter);
+	}
+
+	/* Type scale (1.25 minor third on body, expanded display cut) */
+	.display {
+		font-variation-settings: 'wdth' 118;
+		font-weight: 620;
+		letter-spacing: -0.028em;
+		line-height: 1;
+		font-size: clamp(2.5rem, 1.6rem + 4.2vw, 5.25rem);
+	}
+	.h1 {
+		font-variation-settings: 'wdth' 116;
+		font-weight: 620;
+		letter-spacing: -0.024em;
+		line-height: 1.04;
+		font-size: clamp(2.125rem, 1.5rem + 2.8vw, 3.75rem);
+	}
+	.h2 {
+		font-variation-settings: 'wdth' 112;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		line-height: 1.1;
+		font-size: clamp(1.625rem, 1.25rem + 1.6vw, 2.5rem);
+	}
+	.h3 {
+		font-variation-settings: 'wdth' 106;
+		font-weight: 600;
+		letter-spacing: -0.012em;
+		line-height: 1.2;
+		font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+	}
+	.lede {
+		font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+		line-height: 1.55;
+		color: var(--color-muted);
+		max-width: 38rem;
+	}
+	.meta {
+		font-size: 0.8125rem;
+		line-height: 1.4;
+		color: var(--color-muted);
+	}
+	.num {
+		font-variant-numeric: tabular-nums lining-nums;
+	}
+
+	/* Rich text from Sanity Portable Text */
+	.prose-skt {
+		color: var(--color-ink-2);
+		max-width: 42rem;
+	}
+	.prose-skt > * + * {
+		margin-top: 1em;
+	}
+	.prose-skt h2,
+	.prose-skt h3 {
+		font-variation-settings: 'wdth' 108;
+		font-weight: 600;
+		letter-spacing: -0.012em;
+		margin-top: 1.75em;
+	}
+	.prose-skt h2 {
+		font-size: 1.5rem;
+	}
+	.prose-skt h3 {
+		font-size: 1.1875rem;
+	}
+	.prose-skt ul {
+		list-style: disc;
+		padding-left: 1.25rem;
+	}
+	.prose-skt ol {
+		list-style: decimal;
+		padding-left: 1.25rem;
+	}
+	.prose-skt li + li {
+		margin-top: 0.35em;
+	}
+	.prose-skt a {
+		color: var(--color-cyan);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.prose-skt strong {
+		color: var(--color-ink);
+		font-weight: 600;
+	}
+	.prose-skt blockquote {
+		border-left: 3px solid var(--color-cyan);
+		padding-left: 1rem;
+		color: var(--color-ink);
+	}
+
+	/* Link with animated underline */
+	.link {
+		color: var(--color-ink);
+		font-weight: 550;
+		text-decoration: underline;
+		text-decoration-color: var(--color-line-strong);
+		text-decoration-thickness: 1.5px;
+		text-underline-offset: 4px;
+		transition: text-decoration-color var(--dur-2) var(--ease-out);
+	}
+	.link:hover {
+		text-decoration-color: var(--color-cyan);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+--------------------------------------------------------------------------- */
+
+/* Scroll reveal — only hidden once JS has confirmed it can reveal it again */
+.js [data-reveal] {
+	opacity: 0;
+	transform: translateY(14px);
+	transition:
+		opacity var(--dur-4) var(--ease-out),
+		transform var(--dur-4) var(--ease-out);
+	transition-delay: calc(var(--reveal-i, 0) * 70ms);
+}
+.js [data-reveal='in'] {
+	opacity: 1;
+	transform: none;
+}
+
+/* Image reveal — a wipe in the direction of a print pass. The child is
+   clipped, not the observed element: IntersectionObserver treats a fully
+   clipped target as invisible and would never reveal it. */
+.js [data-reveal-img] > * {
+	clip-path: inset(0 100% 0 0);
+	transition: clip-path 900ms var(--ease-in-out);
+}
+.js [data-reveal-img='in'] > * {
+	clip-path: inset(0 0 0 0);
+}
+
+/* Page transitions (View Transitions API) */
+@keyframes vt-out {
+	to {
+		opacity: 0;
+		transform: translateY(-6px);
+	}
+}
+@keyframes vt-in {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+}
+::view-transition-old(main) {
+	animation: vt-out 160ms var(--ease-out) both;
+}
+::view-transition-new(main) {
+	animation: vt-in 320ms var(--ease-out) 60ms both;
+}
+::view-transition-group(*) {
+	animation-duration: 420ms;
+	animation-timing-function: var(--ease-out);
+}
+/* The header stays live during page transitions — no snapshot cross-fade —
+   so the nav thumb's spring keeps playing without a ghost of its old spot. */
+::view-transition-group(header) {
+	animation: none;
+	z-index: 10;
+}
+::view-transition-old(header) {
+	display: none;
+}
+::view-transition-new(header) {
+	animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 1ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 1ms !important;
+		transition-delay: 0ms !important;
+		scroll-behavior: auto !important;
+	}
+	.js [data-reveal],
+	.js [data-reveal-img] > * {
+		opacity: 1;
+		transform: none;
+		clip-path: none;
+	}
+}

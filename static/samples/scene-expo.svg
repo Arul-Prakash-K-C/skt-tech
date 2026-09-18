@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<rect width="1200" height="800" fill="#e9eef2"/>
+<rect x="120" y="90" width="960" height="420" fill="#0f2233"/>
+<rect x="120" y="90" width="960" height="18" fill="#07719a"/>
+<g transform="translate(180 170)">
+<rect width="36" height="36" fill="#f4c20d"/><rect y="42" width="36" height="36" fill="#c2185b"/><rect y="84" width="36" height="36" fill="#00a0d2"/><rect y="126" width="36" height="36" fill="#fff"/>
+</g>
+<text x="250" y="232" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="64" fill="#fff">Card Printing Live</text>
+<text x="252" y="286" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#8fd3ee">Hall 2 · Stall 214</text>
+<rect x="0" y="560" width="1200" height="240" fill="#c9d2d9"/>
+<rect x="260" y="470" width="680" height="190" rx="8" fill="#f7f9fa" stroke="#cdd5db" stroke-width="4"/>
+<rect x="260" y="470" width="680" height="24" rx="8" fill="#07719a"/>
+<g transform="translate(330 380) scale(.42)"><rect x="170" y="190" width="460" height="290" rx="34" fill="#3b4652"/><path d="M232 190 L262 118 H538 L568 190 Z" fill="#303a44"/><circle cx="588" cy="236" r="12" fill="#b8235a"/></g>
+<g transform="translate(610 380) scale(.42)"><rect x="170" y="190" width="460" height="290" rx="34" fill="#26313b"/><path d="M232 190 L262 118 H538 L568 190 Z" fill="#1d262e"/><circle cx="588" cy="236" r="12" fill="#e0a800"/></g>
+<g fill="#7a8793"><circle cx="120" cy="600" r="34"/><rect x="80" y="636" width="80" height="164" rx="36"/><circle cx="1080" cy="610" r="34"/><rect x="1040" y="646" width="80" height="154" rx="36"/></g>
+</svg>
