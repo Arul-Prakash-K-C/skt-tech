@@ -18,5 +18,8 @@ export default defineConfig({
 			// See https://svelte.dev/docs/kit/adapters for more information about adapters.
 			adapter: adapter()
 		})
-	]
+	],
+	// Only the gallery page imports ogl; pre-bundle it at startup so the dev
+	// server doesn't discover it late and serve an outdated copy.
+	optimizeDeps: { include: ['ogl'] }
 });
