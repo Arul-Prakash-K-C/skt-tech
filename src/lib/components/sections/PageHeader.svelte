@@ -12,7 +12,7 @@
 	let { title, intro, crumbs, aside }: Props = $props();
 </script>
 
-<header class="border-b border-line bg-stock">
+<header class="foil-edge relative bg-stock">
 	<div class="shell pt-8 pb-10 md:pt-10 md:pb-14">
 		{#if crumbs}<Breadcrumbs items={crumbs} />{/if}
 		<div class="mt-6 grid gap-6 md:mt-10 md:grid-cols-12 md:items-end">
@@ -24,3 +24,22 @@
 		</div>
 	</div>
 </header>
+
+<style>
+	/* A strip of holographic laminate along the bottom edge of every page header */
+	.foil-edge::after {
+		content: '';
+		position: absolute;
+		inset: auto 0 0;
+		height: 3px;
+		background: linear-gradient(
+			90deg,
+			var(--color-process-cyan),
+			var(--color-holo-violet),
+			var(--color-process-magenta),
+			var(--color-process-yellow),
+			var(--color-holo-mint),
+			var(--color-process-cyan)
+		);
+	}
+</style>

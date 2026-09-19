@@ -25,9 +25,9 @@
 <footer class="footer">
 	<!-- The ribbon: Y M C K panels in print order -->
 	<div class="ribbon" aria-hidden="true">
-		<span style:background="var(--color-yellow)"></span>
-		<span style:background="#c2185b"></span>
-		<span style:background="#0a8fc0"></span>
+		<span style:background="var(--color-process-yellow)"></span>
+		<span style:background="var(--color-process-magenta)"></span>
+		<span style:background="var(--color-process-cyan)"></span>
 		<span style:background="#5d6b78"></span>
 	</div>
 

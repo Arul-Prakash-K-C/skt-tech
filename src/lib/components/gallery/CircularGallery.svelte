@@ -20,8 +20,12 @@
 		scrollEase?: number;
 		/** Idle drift in cards per minute; 0 disables it. */
 		drift?: number;
-		/** Called with the item index when a card is clicked or Enter is pressed. */
+		/** Called with the item index when a card is clicked or its button pressed. */
 		onactivate?: (index: number) => void;
+		/** Label of the button that opens the card in front. */
+		openLabel?: string;
+		/** Short usage hint beside the counter on wider screens. */
+		hint?: string;
 		class?: ClassValue;
 	}
 
@@ -35,6 +39,8 @@
 		scrollEase = 0.075,
 		drift = 5,
 		onactivate,
+		openLabel = 'Open this photo',
+		hint = 'Drag or swipe sideways · click a photo to enlarge',
 		class: className
 	}: Props = $props();
 
@@ -105,20 +111,23 @@
 
 {#if !failed}
 	<section class={['relative', className]} aria-roledescription="carousel" aria-label={label}>
-		{#key items}
-			<div
-				{@attach mount}
-				class={[
-					'relative h-[clamp(15rem,42vw,34rem)] w-full cursor-grab touch-pan-y overflow-hidden select-none active:cursor-grabbing',
-					'[mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]',
-					'rounded-card outline-none ',
-					// Fade in once the first frame is drawn, so there's no blank flash
-					'transition-opacity duration-700 ease-out',
-					reel ? 'opacity-100' : 'opacity-0'
-				]}
-				aria-hidden="true"
-			></div>
-		{/key}
+		<!-- Sits in the page's content column, like everything else on the page -->
+		<div class="shell">
+			{#key items}
+				<div
+					{@attach mount}
+					class={[
+						'relative h-[clamp(14rem,34vw,24rem)] w-full cursor-grab touch-pan-y overflow-hidden select-none active:cursor-grabbing',
+						'[mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]',
+						'rounded-card outline-none',
+						// Fade in once the first frame is drawn, so there's no blank flash
+						'transition-opacity duration-700 ease-out',
+						reel ? 'opacity-100' : 'opacity-0'
+					]}
+					aria-hidden="true"
+				></div>
+			{/key}
+		</div>
 
 		<div class="shell mt-2 flex items-center justify-between gap-4 md:mt-4">
 			<p class="num flex min-w-0 items-baseline gap-3 text-sm text-muted">
@@ -127,7 +136,7 @@
 				></span>
 				<span>{pad(items.length)}</span>
 				<span class="ml-2 hidden truncate md:inline">
-					Drag or swipe sideways · click a photo to enlarge
+					{hint}
 				</span>
 			</p>
 
@@ -154,7 +163,7 @@
 				{/if}
 				{@render control('chevron-right', 'Next photo', () => step(1))}
 				{#if onactivate}
-					{@render control('expand', 'Open this photo', () => onactivate(active))}
+					{@render control('expand', openLabel, () => onactivate(active))}
 				{/if}
 			</div>
 		</div>

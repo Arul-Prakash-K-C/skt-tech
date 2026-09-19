@@ -16,7 +16,7 @@
 	--color-subtle: #7a8793;
 	--color-line: #d5dbe0;
 	--color-line-strong: #b9c3cb;
-	--color-paper: #f3f5f6;
+	--color-paper: #f4f7fb;
 	--color-stock: #ffffff;
 	--color-shade: #e8ecef;
 
@@ -28,6 +28,14 @@
 	--color-magenta-soft: #fbe8ef;
 	--color-yellow: #f4c20d;
 	--color-key: #0f2233;
+
+	/* Full-strength process inks and the holographic laminate: the colour
+	   of the page. Used as fills and marks, never for body text. */
+	--color-process-cyan: #00a3e0;
+	--color-process-magenta: #e4007c;
+	--color-process-yellow: #ffd100;
+	--color-holo-violet: #8b5cf6;
+	--color-holo-mint: #3ee6c1;
 	--color-ok: #1f7a4d;
 	--color-ok-soft: #e4f3ea;
 	--color-warn: #9a5b00;

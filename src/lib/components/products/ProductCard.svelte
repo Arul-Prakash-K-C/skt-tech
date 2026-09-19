@@ -3,6 +3,7 @@
 	import SanityImage from '$lib/components/ui/SanityImage.svelte';
 	import Price from '$lib/components/ui/Price.svelte';
 	import { AVAILABILITY } from '$lib/utils/format';
+	import { tintFor } from '$lib/utils/tint';
 
 	interface Props {
 		product: ProductCard;
@@ -12,6 +13,9 @@
 	}
 
 	let { product, level = 'h3', priority = false }: Props = $props();
+
+	// A soft process-colour backdrop per category, so the grid reads by type at a glance
+	const tint = $derived(tintFor(product.category?.slug ?? ''));
 
 	const stock = $derived(AVAILABILITY[product.availability] ?? AVAILABILITY['in-stock']);
 	// Show the brand, unless the product name already starts with it
@@ -23,7 +27,7 @@
 </script>
 
 <article class="card group">
-	<div class="media" style:view-transition-name="product-{product.slug}">
+	<div class="media" style:--tint={tint} style:view-transition-name="product-{product.slug}">
 		{#if product.image}
 			<SanityImage
 				image={product.image}
@@ -60,32 +64,28 @@
 	.media {
 		position: relative;
 		aspect-ratio: 4 / 3;
-		border-radius: var(--radius-card);
-		background: var(--color-stock);
-		border: 1px solid var(--color-line);
+		border-radius: var(--radius-lg);
+		background:
+			radial-gradient(80% 70% at 50% 60%, rgb(255 255 255 / 0.85), transparent 70%), var(--tint);
 		overflow: hidden;
-		transition: border-color var(--dur-3) var(--ease-out);
-	}
-	.card:hover .media {
-		border-color: var(--color-line-strong);
 	}
 	.media :global(.img) {
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
-		padding: 6%;
-		transition: transform var(--dur-4) var(--ease-out);
+		padding: 8%;
+		transition: transform var(--dur-4) var(--ease-spring);
 	}
 	.card:hover .media :global(.img) {
-		transform: scale(1.045);
+		transform: translateY(-3%) scale(1.05);
 	}
 	.deal {
 		position: absolute;
 		top: 0.75rem;
 		left: 0.75rem;
-		padding: 0.3125rem 0.5rem;
-		border-radius: var(--radius-xs);
-		background: var(--color-magenta);
+		padding: 0.375rem 0.625rem;
+		border-radius: 999px;
+		background: var(--color-process-magenta);
 		color: white;
 		font-size: 0.75rem;
 		font-weight: 620;
@@ -119,7 +119,7 @@
 		content: '';
 		position: absolute;
 		inset: 0;
-		border-radius: var(--radius-card);
+		border-radius: var(--radius-lg);
 	}
 	.stretched:focus-visible {
 		outline: none;

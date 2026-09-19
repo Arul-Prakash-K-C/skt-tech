@@ -2,40 +2,44 @@
 	import type { Offer } from '$lib/sanity/types';
 	import SanityImage from '$lib/components/ui/SanityImage.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
-	import Badge from '$lib/components/ui/Badge.svelte';
 	import { formatDate } from '$lib/utils/format';
-	import { reveal } from '$lib/utils/motion';
 
 	interface Props {
 		offers: Offer[];
 	}
 
 	let { offers }: Props = $props();
+
+	// Each offer's artwork sits on a different process ink
+	const INKS = [
+		'var(--color-process-yellow)',
+		'var(--color-process-cyan)',
+		'var(--color-process-magenta)'
+	];
 </script>
 
 <ul class={['grid gap-5', offers.length > 1 && 'lg:grid-cols-2']}>
 	{#each offers as offer, i (offer._key)}
-		<li class="offer" {@attach reveal(i)}>
+		<li class="offer">
 			{#if offer.image}
-				<div class="art">
+				<div class="art" style:--ink={INKS[i % INKS.length]}>
 					<SanityImage
 						image={offer.image}
 						width={360}
 						sizes="(min-width: 1024px) 18rem, 40vw"
-						class="h-full w-full object-contain"
+						class="h-full w-full object-contain drop-shadow-[0_18px_24px_rgb(15_34_51/0.35)]"
 					/>
 				</div>
 			{/if}
 			<div class="flex flex-col p-6 md:p-8">
-				<div class="flex flex-wrap items-center gap-2">
-					<Badge tone="deal">Offer</Badge>
-					{#if offer.validUntil}<span class="meta">Until {formatDate(offer.validUntil)}</span>{/if}
-				</div>
-				<h3 class="h3 mt-4">{offer.title}</h3>
-				{#if offer.description}<p class="mt-2 text-muted">{offer.description}</p>{/if}
+				{#if offer.validUntil}
+					<p class="text-sm text-white/60">Until {formatDate(offer.validUntil)}</p>
+				{/if}
+				<h3 class="h3 mt-2 text-white">{offer.title}</h3>
+				{#if offer.description}<p class="mt-3 text-white/72">{offer.description}</p>{/if}
 				{#if offer.cta}
-					<div class="mt-auto pt-6">
-						<Button href={offer.cta.href} variant="secondary" size="sm">{offer.cta.label}</Button>
+					<div class="mt-auto pt-7">
+						<Button href={offer.cta.href} variant="accent" size="sm">{offer.cta.label}</Button>
 					</div>
 				{/if}
 			</div>
@@ -46,8 +50,7 @@
 <style>
 	.offer {
 		display: grid;
-		background: var(--color-stock);
-		border: 1px solid var(--color-line);
+		background: var(--color-ink);
 		border-radius: var(--radius-lg);
 		overflow: hidden;
 	}
@@ -58,14 +61,17 @@
 	}
 	.art {
 		aspect-ratio: 4 / 3;
-		padding: 1rem;
-		/* A magenta panel edge marks promotional content */
-		background: linear-gradient(90deg, var(--color-magenta) 0 4px, var(--color-magenta-soft) 4px);
+		margin: 0.5rem;
+		padding: 1.25rem;
+		border-radius: calc(var(--radius-lg) - 0.5rem);
+		background:
+			radial-gradient(70% 60% at 50% 45%, rgb(255 255 255 / 0.45), transparent 70%), var(--ink);
 	}
 	@media (min-width: 640px) {
 		.art {
 			aspect-ratio: auto;
-			min-height: 100%;
+			min-height: calc(100% - 1rem);
+			margin-right: 0;
 		}
 	}
 </style>

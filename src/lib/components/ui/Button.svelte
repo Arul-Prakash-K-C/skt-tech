@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 
-	type Variant = 'primary' | 'secondary' | 'ghost' | 'inverse';
+	type Variant = 'primary' | 'secondary' | 'ghost' | 'inverse' | 'accent' | 'outline-inverse';
 	type Size = 'sm' | 'md' | 'lg';
 
 	type Props = {
@@ -41,7 +41,7 @@
 			align-items: center;
 			justify-content: center;
 			gap: 0.5rem;
-			border-radius: var(--radius-sm);
+			border-radius: 999px;
 			font-weight: 580;
 			font-variation-settings: 'wdth' 104;
 			letter-spacing: -0.005em;
@@ -88,7 +88,7 @@
 			color: white;
 		}
 		.btn-primary:hover {
-			background: var(--color-cyan-strong);
+			background: #1b3a55;
 		}
 
 		.btn-secondary {
@@ -115,6 +115,26 @@
 		}
 		.btn-inverse:hover {
 			background: var(--color-cyan-soft);
+		}
+
+		/* Process-yellow: the one bright action on dark surfaces */
+		.btn-accent {
+			background: var(--color-process-yellow);
+			color: var(--color-ink);
+			box-shadow: 0 10px 30px -12px rgb(255 209 0 / 0.55);
+		}
+		.btn-accent:hover {
+			background: #ffe04d;
+		}
+
+		.btn-outline-inverse {
+			background: transparent;
+			color: white;
+			border-color: rgb(255 255 255 / 0.3);
+		}
+		.btn-outline-inverse:hover {
+			border-color: white;
+			background: rgb(255 255 255 / 0.06);
 		}
 	}
 </style>

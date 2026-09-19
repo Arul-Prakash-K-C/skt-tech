@@ -26,9 +26,9 @@
 			stroke="currentColor"
 			stroke-width="2"
 		/>
-		<rect x="6" y="9" width="3" height="10" rx="1" fill="#f4c20d" />
-		<rect x="10.5" y="9" width="3" height="10" rx="1" fill="#c2185b" />
-		<rect x="15" y="9" width="3" height="10" rx="1" fill="#0a8fc0" />
+		<rect x="6" y="9" width="3" height="10" rx="1" fill="#ffd100" />
+		<rect x="10.5" y="9" width="3" height="10" rx="1" fill="#e4007c" />
+		<rect x="15" y="9" width="3" height="10" rx="1" fill="#00a3e0" />
 		<rect x="19.5" y="9" width="3" height="10" rx="1" fill="currentColor" />
 	</svg>
 	<span class="word">

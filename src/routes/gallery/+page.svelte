@@ -10,6 +10,7 @@
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Lightbox from '$lib/components/gallery/Lightbox.svelte';
 	import CircularGallery from '$lib/components/gallery/CircularGallery.svelte';
+	import TiltedCard from '$lib/components/ui/TiltedCard.svelte';
 	import { imageUrl } from '$lib/sanity/image';
 	import { revealImage } from '$lib/utils/motion';
 
@@ -87,23 +88,29 @@
 			</div>
 		{/if}
 
-		<ul class="masonry mt-8">
+		<ul class="photo-grid mt-8">
 			{#each visible as item (item._id)}
-				<li class="tile">
+				<!-- The hovered tile rises above its neighbours, so its lift and tooltip aren't covered -->
+				<li class="relative hover:z-10">
 					<a
 						href={imageUrl(item.image, { width: 2000 })}
 						class="group block"
 						onclick={(e) => open(e, item._id)}
 					>
-						<div class="media" {@attach revealImage}>
-							<SanityImage
-								image={item.image}
-								width={520}
-								sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-								class="w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-							/>
-							<span class="zoom" aria-hidden="true"><Icon name="expand" size={18} /></span>
-						</div>
+						<TiltedCard caption="Click to enlarge">
+							<div class="media" {@attach revealImage}>
+								<SanityImage
+									image={item.image}
+									width={520}
+									aspect={4 / 3}
+									sizes="(min-width: 1024px) 26rem, (min-width: 640px) 45vw, 100vw"
+									class="h-full w-full object-cover"
+								/>
+							</div>
+							{#snippet overlay()}
+								<span class="zoom" aria-hidden="true"><Icon name="expand" size={18} /></span>
+							{/snippet}
+						</TiltedCard>
 						<div class="mt-3">
 							<p class="font-medium text-ink">{item.title}</p>
 							<p class="meta mt-0.5">{LABELS[item.category] ?? item.category}</p>
@@ -172,26 +179,27 @@
 	.tab[aria-pressed='true'] span {
 		color: rgb(255 255 255 / 0.6);
 	}
-	.masonry {
-		columns: 1;
-		column-gap: 1.5rem;
+	/* Equal tiles in straight rows; photos are cropped to 4:3 around their hotspot */
+	.photo-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem 1.5rem;
 	}
 	@media (min-width: 640px) {
-		.masonry {
-			columns: 2;
+		.photo-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 	@media (min-width: 1024px) {
-		.masonry {
-			columns: 3;
+		.photo-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
-	}
-	.tile {
-		break-inside: avoid;
-		margin-bottom: 2rem;
 	}
 	.media {
 		position: relative;
+		aspect-ratio: 4 / 3;
+		box-shadow: 0 1px 2px rgb(15 34 51 / 0.06);
+		transition: box-shadow var(--dur-3) var(--ease-out);
 		overflow: hidden;
 		border-radius: var(--radius-card);
 		background: var(--color-shade);
@@ -212,6 +220,9 @@
 		transition:
 			opacity var(--dur-2) var(--ease-out),
 			transform var(--dur-2) var(--ease-out);
+	}
+	.group:hover .media {
+		box-shadow: 0 22px 40px -22px rgb(15 34 51 / 0.45);
 	}
 	.group:hover .zoom,
 	.group:focus-visible .zoom {
