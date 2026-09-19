@@ -35,6 +35,7 @@
 		"@sanity/client": "^8.6.2",
 		"@sanity/image-url": "^2.1.1",
 		"motion": "^13.4.0",
+		"ogl": "^1.0.11",
 		"resend": "^6.28.1"
 	}
 }

@@ -9,6 +9,7 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Lightbox from '$lib/components/gallery/Lightbox.svelte';
+	import CircularGallery from '$lib/components/gallery/CircularGallery.svelte';
 	import { imageUrl } from '$lib/sanity/image';
 	import { revealImage } from '$lib/utils/motion';
 
@@ -33,6 +34,21 @@
 	);
 	const openIndex = $derived(visible.findIndex((i) => i._id === page.state.lightbox));
 
+	// The reel shows every photo as an ID-card-shaped frame, cropped around the hotspot
+	const reel = $derived(
+		data.items.map((i) => ({
+			image: imageUrl(i.image, { width: 1280, aspect: 1.586 }),
+			text: i.title
+		}))
+	);
+
+	function openFromReel(index: number) {
+		const item = data.items[index];
+		if (!item) return;
+		if (!visible.includes(item)) filter = 'all';
+		pushState('', { lightbox: item._id });
+	}
+
 	function open(e: MouseEvent, id: string) {
 		// Let modified clicks open the full image in a new tab
 		if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
@@ -48,8 +64,16 @@
 
 <PageHeader title="Gallery" {intro} crumbs={[{ name: 'Home', href: '/' }, { name: 'Gallery' }]} />
 
+{#if data.items.length >= 3}
+	<div class="overflow-hidden pt-10 md:pt-14">
+		<h2 class="shell h3 mb-2 md:mb-4">Recent work</h2>
+		<CircularGallery items={reel} label="Recent work" onactivate={openFromReel} />
+	</div>
+{/if}
+
 <div class="shell py-10 md:py-14">
 	{#if data.items.length}
+		{#if data.items.length >= 3}<h2 class="h3 mb-6">All photos</h2>{/if}
 		{#if present.length > 1}
 			<div class="tabs" role="toolbar" aria-label="Filter gallery">
 				<button class="tab" aria-pressed={filter === 'all'} onclick={() => (filter = 'all')}>

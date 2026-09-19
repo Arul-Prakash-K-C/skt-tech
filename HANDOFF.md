@@ -116,6 +116,13 @@ Contact form → form action (src/routes/contact/+page.server.ts)
   - The **Products** item carries the categories dropdown: a chevron button (`aria-label="Product categories"`) plus `#products-menu`, anchored inside the Products slot at `left:-3px; top: calc(100% + .75rem)`.
   - Escape closes the menu and refocuses the chevron. A click outside closes it.
   - The dropdown must stay attached to Products. It was previously at the end of the nav, and the owner asked for it to be moved.
+- **`gallery/CircularGallery.svelte`** + **`gallery/circular-reel.ts`**: the "Recent work" reel on `/gallery`, a port of React Bits' CircularGallery using `ogl` (WebGL).
+  - Cards are CR80-shaped; images are cropped around the hotspot and wipe in like a print pass.
+  - When idle, the reel drifts slowly on its own. The drift pauses on hover, on drag, with the pause button, offscreen and in background tabs, and is off by default under reduced motion.
+  - Only horizontal wheel or trackpad movement and drags move the reel; vertical scroll passes through to the page.
+  - Clicking a card opens the existing Lightbox.
+  - The canvas is `aria-hidden`. Keyboard and screen-reader users get the prev/pause/next/open buttons and a live region instead.
+  - Only the gallery page loads `ogl`. If the engine cannot start (for example, no WebGL), the reel hides itself and the grid remains.
 - **`navigation/MobileNav.svelte`**: a `<dialog>` drawer for small screens.
 
 **Design system** (tokens in `src/routes/layout.css`):

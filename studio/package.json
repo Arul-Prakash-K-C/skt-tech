@@ -8,7 +8,8 @@
 		"build": "sanity build",
 		"deploy": "sanity deploy",
 		"typecheck": "tsc --noEmit",
-		"seed": "tsx --env-file=.env seed/seed.ts"
+		"seed": "tsx --env-file=.env seed/seed.ts",
+		"seed:gallery": "tsx --env-file=.env seed/gallery.ts"
 	},
 	"dependencies": {
 		"@sanity/icons": "^5.2.2",
