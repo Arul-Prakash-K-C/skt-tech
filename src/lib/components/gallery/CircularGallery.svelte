@@ -125,6 +125,7 @@
 						reel ? 'opacity-100' : 'opacity-0'
 					]}
 					aria-hidden="true"
+					data-lenis-prevent-horizontal
 				></div>
 			{/key}
 		</div>

@@ -29,6 +29,7 @@
 </script>
 
 <dialog
+	data-lenis-prevent
 	{@attach modal(true)}
 	class="lightbox"
 	aria-label={item?.title}

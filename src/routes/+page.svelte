@@ -12,7 +12,7 @@
 	import Offers from '$lib/components/sections/Offers.svelte';
 	import ContactPrompt from '$lib/components/sections/ContactPrompt.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
-	import { imageUrl } from '$lib/sanity/image';
+	import { textureUrl } from '$lib/sanity/image';
 	import { organizationLd } from '$lib/utils/seo';
 	import { tintFor } from '$lib/utils/tint';
 
@@ -27,7 +27,7 @@
 	const useReel = $derived(reelCategories.length >= 3);
 	const reelItems = $derived(
 		reelCategories.map((c) => ({
-			image: imageUrl(c.image, { width: 1280, aspect: 1.586 }),
+			image: textureUrl(c.image, { width: 960, aspect: 1.586 }),
 			text: c.title,
 			background: tintFor(c.slug)
 		}))

@@ -6,8 +6,7 @@
 	import ContactPrompt from '$lib/components/sections/ContactPrompt.svelte';
 	import PrintProcess from '$lib/components/about/PrintProcess.svelte';
 	import { reveal } from '$lib/utils/motion';
-	import { countUp, scrollProgress, smoothScroll } from '$lib/utils/scroll-fx';
-	import 'lenis/dist/lenis.css';
+	import { countUp, scrollProgress } from '$lib/utils/scroll-fx';
 
 	let { data } = $props();
 
@@ -21,8 +20,6 @@
 	description={about.seo?.description ?? about.intro}
 	image={about.seo?.image ?? about.image}
 />
-
-<div class="contents" {@attach smoothScroll}></div>
 
 <header class="shell pt-6 pb-12 md:pt-8 md:pb-16">
 	<Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'About' }]} />

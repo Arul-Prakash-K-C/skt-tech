@@ -51,3 +51,15 @@ export function imageRatio(image: Img | undefined, fallback = 1.5) {
 	if (image?.width && image?.height) return image.width / image.height;
 	return fallback;
 }
+
+/**
+ * URL for using an image as a WebGL texture. Sanity images go through the
+ * site's own `/api/image` route, so the browser never needs the CDN's CORS
+ * permission; static images are already same-origin.
+ */
+export function textureUrl(image: Img | undefined, opts: UrlOptions) {
+	const url = imageUrl(image, opts);
+	return url.startsWith('https://cdn.sanity.io/')
+		? `/api/image?src=${encodeURIComponent(url)}`
+		: url;
+}
