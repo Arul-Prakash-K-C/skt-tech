@@ -1,0 +1,40 @@
+name: Deploy Sanity Studio
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - mouly
+    paths:
+      - 'studio/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build & Deploy Studio
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: studio/package-lock.json
+
+      - name: Install Studio dependencies
+        working-directory: ./studio
+        run: npm ci
+
+      - name: Deploy Sanity Studio to CDN
+        working-directory: ./studio
+        run: npx sanity deploy --yes
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+          SANITY_STUDIO_PROJECT_ID: mns0wnr4
+          SANITY_STUDIO_DATASET: production
+
