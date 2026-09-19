@@ -1,6 +1,5 @@
 import type { Attachment } from 'svelte/attachments';
 import { animate, inView } from 'motion';
-import Lenis from 'lenis';
 import { prefersReducedMotion } from './motion';
 
 /**
@@ -8,13 +7,6 @@ import { prefersReducedMotion } from './motion';
  * property or text and leaves the styling to CSS. All are no-ops under
  * prefers-reduced-motion, so the static markup is always the fallback.
  */
-
-/** Inertial smooth scrolling while the element is mounted. */
-export const smoothScroll: Attachment<HTMLElement> = () => {
-	if (prefersReducedMotion()) return;
-	const lenis = new Lenis({ autoRaf: true, lerp: 0.09, wheelMultiplier: 0.9 });
-	return () => lenis.destroy();
-};
 
 /**
  * An edge pair: a point on the element (0 = top, 1 = bottom) meeting a point

@@ -18,6 +18,7 @@
 </script>
 
 <dialog
+	data-lenis-prevent
 	{@attach modal(open)}
 	class="sheet"
 	aria-label="Menu"

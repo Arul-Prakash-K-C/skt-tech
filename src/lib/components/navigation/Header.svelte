@@ -72,12 +72,16 @@
 <a href="#main" class="skip">Skip to content</a>
 
 <header class={['header', scrollY > 8 && 'scrolled']}>
-	<div class="shell flex h-(--header-h) items-center justify-between gap-6">
-		<a href="/" class="shrink-0" aria-label="{settings.companyName} home">
+	<!-- Three columns with equal outer tracks, so the menu sits on the page's
+	     true centre whatever the widths of the logo and the actions -->
+	<div
+		class="shell grid h-(--header-h) grid-cols-[1fr_auto] items-center gap-4 lg:grid-cols-[1fr_auto_1fr] lg:gap-6"
+	>
+		<a href="/" class="justify-self-start" aria-label="{settings.companyName} home">
 			<Logo name={settings.companyName} />
 		</a>
 
-		<nav aria-label="Main" class="hidden lg:block">
+		<nav aria-label="Main" class="hidden justify-self-center lg:block">
 			<RubberSegment
 				items={navItems}
 				value={activeHref}
@@ -144,7 +148,7 @@
 			</RubberSegment>
 		</nav>
 
-		<div class="flex items-center gap-2">
+		<div class="flex items-center justify-end gap-2">
 			{#if settings.phone}
 				<a
 					href="tel:{phoneHref(settings.phone)}"

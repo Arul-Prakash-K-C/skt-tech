@@ -2,12 +2,30 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import fontUrl from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
-	import { onNavigate } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
+	import 'lenis/dist/lenis.css';
 	import Header from '$lib/components/navigation/Header.svelte';
 	import Footer from '$lib/components/layout/Footer.svelte';
 	import { prefersReducedMotion } from '$lib/utils/motion';
+	import {
+		pauseSmoothScroll,
+		resumeSmoothScroll,
+		startSmoothScroll
+	} from '$lib/utils/smooth-scroll';
 
 	let { children, data } = $props();
+
+	// Smooth wheel scrolling everywhere. It holds still during navigation, so
+	// SvelteKit's own scroll handling (top of the new page, back/forward
+	// restoration, #hash links) always wins, then picks up from there.
+	onMount(startSmoothScroll);
+	beforeNavigate(({ willUnload }) => {
+		if (!willUnload) pauseSmoothScroll();
+	});
+	afterNavigate(({ type }) => {
+		if (type !== 'enter') resumeSmoothScroll();
+	});
 
 	// Cross-document feel on client navigations. Filter/query changes on the
 	// same page are left alone so the product grid doesn't flash.

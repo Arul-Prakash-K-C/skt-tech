@@ -11,8 +11,8 @@
 	import Lightbox from '$lib/components/gallery/Lightbox.svelte';
 	import CircularGallery from '$lib/components/gallery/CircularGallery.svelte';
 	import TiltedCard from '$lib/components/ui/TiltedCard.svelte';
-	import { imageUrl } from '$lib/sanity/image';
-	import { revealImage } from '$lib/utils/motion';
+	import { imageUrl, textureUrl } from '$lib/sanity/image';
+	import { reveal } from '$lib/utils/motion';
 
 	let { data } = $props();
 
@@ -38,7 +38,7 @@
 	// The reel shows every photo as an ID-card-shaped frame, cropped around the hotspot
 	const reel = $derived(
 		data.items.map((i) => ({
-			image: imageUrl(i.image, { width: 1280, aspect: 1.586 }),
+			image: textureUrl(i.image, { width: 960, aspect: 1.586 }),
 			text: i.title
 		}))
 	);
@@ -89,16 +89,17 @@
 		{/if}
 
 		<ul class="photo-grid mt-8">
-			{#each visible as item (item._id)}
-				<!-- The hovered tile rises above its neighbours, so its lift and tooltip aren't covered -->
-				<li class="relative hover:z-10">
+			{#each visible as item, i (item._id)}
+				<!-- The hovered tile rises above its neighbours, so its lift and tooltip aren't
+				     covered. Tiles rise in staggered across each row of three. -->
+				<li class="relative hover:z-10" {@attach reveal(i % 3)}>
 					<a
 						href={imageUrl(item.image, { width: 2000 })}
 						class="group block"
 						onclick={(e) => open(e, item._id)}
 					>
 						<TiltedCard caption="Click to enlarge">
-							<div class="media" {@attach revealImage}>
+							<div class="media">
 								<SanityImage
 									image={item.image}
 									width={520}
@@ -179,6 +180,39 @@
 	.tab[aria-pressed='true'] span {
 		color: rgb(255 255 255 / 0.6);
 	}
+	/* Entrance: each tile rises into place, tilted back slightly, and settles
+	   flat while the photo inside eases out of a small zoom. Driven by the
+	   shared reveal observer (data-reveal="in" once the tile is on screen). */
+	:global(.js) .photo-grid > li:global([data-reveal]) {
+		opacity: 0;
+		transform: perspective(1200px) translateY(56px) rotateX(9deg) scale(0.95);
+		transform-origin: 50% 100%;
+		transition:
+			opacity 700ms var(--ease-out),
+			transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+		transition-delay: calc(var(--reveal-i, 0) * 110ms);
+	}
+	:global(.js) .photo-grid > li:global([data-reveal='in']) {
+		opacity: 1;
+		transform: none;
+	}
+	:global(.js) .photo-grid > li:global([data-reveal]) .media :global(img) {
+		transform: scale(1.12);
+		transition: transform 1500ms cubic-bezier(0.16, 1, 0.3, 1);
+		transition-delay: calc(var(--reveal-i, 0) * 110ms + 60ms);
+	}
+	:global(.js) .photo-grid > li:global([data-reveal='in']) .media :global(img) {
+		transform: none;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		:global(.js) .photo-grid > li:global([data-reveal]),
+		:global(.js) .photo-grid > li:global([data-reveal]) .media :global(img) {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+	}
+
 	/* Equal tiles in straight rows; photos are cropped to 4:3 around their hotspot */
 	.photo-grid {
 		display: grid;
