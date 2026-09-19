@@ -7,6 +7,8 @@
 		'chevron-right': 'M9 5l7 7-7 7',
 		'chevron-down': 'M5 9l7 7 7-7',
 		arrow: 'M5 12h14m-6-6 6 6-6 6',
+		pause: 'M9 6v12M15 6v12',
+		play: 'M8 5.5v13l10.5-6.5L8 5.5Z',
 		phone:
 			'M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z',
 		mail: 'M4 6h16v12H4zM4 7l8 6 8-6',
