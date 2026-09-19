@@ -12,7 +12,6 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"allowImportingTsExtensions": true,
-		"baseUrl": ".",
 		"paths": { "$lib/*": ["../src/lib/*"] }
 	},
 	"include": ["**/*.ts", "**/*.tsx"],
