@@ -105,7 +105,19 @@ Contact form → form action (src/routes/contact/+page.server.ts)
 
 **Components** live in `src/lib/components/`: `ui/`, `navigation/`, `layout/`, `hero/`, `products/`, `brands/`, `gallery/`, `events/`, `forms/`, `sections/`.
 
-- **`hero/HeroPrint.svelte`** is the signature moment. The slide image is shown as the face of a CR80 ID card (aspect 1.586, rendered via `SanityImage width={640} aspect={1.586}`). A print head carrying Y/M/C/K ribbon panels "prints" it, then a gloss sweep follows. Slides autoplay every 7 s, with a progress bar, arrows and a pause control.
+- **`hero/HeroCard.svelte`** is the signature moment: a realistic CR80 card with a holographic overlay laminate, on a dark rounded stage.
+  - On load, the card rises from lying flat to face the viewer.
+  - It tilts toward the pointer and floats in a slow loop when idle.
+  - Glare and holo foil follow the tilt. The card has a stacked-layer edge and a floor shadow, and spills light in its own colours.
+  - Changing slide flips the card to show the next design on its back.
+  - One rAF loop writes CSS variables, and runs only while the hero is visible. Reduced motion gets a still card and instant flips.
+- **About page scroll story:**
+  - Smooth scrolling on this page only, using `lenis`, via the `smoothScroll` attachment.
+  - `about/PrintProcess.svelte` pins the process steps while scroll progress prints a card in five passes (Y, M, C, K, then holo overlay). The ink layers use `mix-blend-mode: multiply`, so overlapping inks mix.
+  - The headline reveals word by word, the lead image opens as it scrolls in, the facts count up, and the timeline draws with its dots filling.
+  - `utils/scroll-fx.ts` holds `trackScroll`, `scrollProgress`, `countUp` and `smoothScroll`. Progress is computed from `getBoundingClientRect` on scroll; motion's `scroll()` with a target never fired here.
+  - All of it is static under reduced motion.
+- **Colour system:** process inks (`--color-process-cyan/magenta/yellow`) plus holo violet and mint, in `layout.css`. `utils/tint.ts` maps a category slug to a soft tint, used by product cards and the home category reel.
 - **`navigation/RubberSegment.svelte`** is a Svelte 5 + Tailwind port of the React Bits "RubberSegment" control: a thumb with a spring and stretch that slides between nav items.
   - The thumb is animated with `motion`.
   - It is draggable, with flick glide, and supports the keyboard.

@@ -4,11 +4,16 @@
 	import SanityImage from '$lib/components/ui/SanityImage.svelte';
 	import RichText from '$lib/components/ui/RichText.svelte';
 	import ContactPrompt from '$lib/components/sections/ContactPrompt.svelte';
-	import { parallax, reveal } from '$lib/utils/motion';
+	import PrintProcess from '$lib/components/about/PrintProcess.svelte';
+	import { reveal } from '$lib/utils/motion';
+	import { countUp, scrollProgress, smoothScroll } from '$lib/utils/scroll-fx';
+	import 'lenis/dist/lenis.css';
 
 	let { data } = $props();
 
 	const about = $derived(data.about);
+	// The headline rises in word by word, so each word gets its own mask
+	const words = $derived(about.heading.split(/\s+/));
 </script>
 
 <Seo
@@ -17,18 +22,25 @@
 	image={about.seo?.image ?? about.image}
 />
 
+<div class="contents" {@attach smoothScroll}></div>
+
 <header class="shell pt-6 pb-12 md:pt-8 md:pb-16">
 	<Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'About' }]} />
 	<div class="mt-8 grid gap-8 md:mt-12 lg:grid-cols-12">
-		<h1 class="display lg:col-span-8">{about.heading}</h1>
-		{#if about.intro}<p class="lede lg:col-span-4 lg:self-end">{about.intro}</p>{/if}
+		<h1 class="display lg:col-span-8" aria-label={about.heading}>
+			{#each words as word, i (i)}<span class="word" aria-hidden="true"
+					><span style:--i={i}>{word}</span></span
+				>{' '}{/each}
+		</h1>
+		{#if about.intro}<p class="lede intro lg:col-span-4 lg:self-end">{about.intro}</p>{/if}
 	</div>
 </header>
 
 {#if about.image}
 	<div class="shell">
-		<div class="overflow-hidden rounded-lg bg-shade" style="aspect-ratio: 21 / 9">
-			<div class="h-full will-change-transform" {@attach parallax(0.06)}>
+		<!-- Opens from a narrow window to full width as it scrolls into view -->
+		<div class="lead" {@attach scrollProgress([0, 1], [0.5, 0.5])}>
+			<div class="lead-img">
 				<SanityImage
 					image={about.image}
 					width={1280}
@@ -53,8 +65,10 @@
 					]}
 				>
 					<dt class="text-sm text-muted sm:mt-1">{fact.label}</dt>
-					<dd class="num -order-1 text-2xl font-semibold [font-variation-settings:'wdth'_112]">
-						{fact.value}
+					<dd
+						class="num -order-1 text-3xl font-semibold [font-variation-settings:'wdth'_112] md:text-4xl"
+					>
+						<span {@attach countUp}>{fact.value}</span>
 					</dd>
 				</div>
 			{/each}
@@ -89,19 +103,7 @@
 {/if}
 
 {#if about.process?.length}
-	<section class="shell py-16 md:py-24" aria-labelledby="process">
-		<h2 id="process" class="h2">From first call to first card</h2>
-		<!-- A real sequence, so it is numbered -->
-		<ol class="steps mt-10">
-			{#each about.process as step, i (step._key)}
-				<li class="step" {@attach reveal(i)}>
-					<span class="n num" aria-hidden="true">{i + 1}</span>
-					<h3 class="h3 mt-5">{step.title}</h3>
-					{#if step.text}<p class="mt-2 text-ink-2">{step.text}</p>{/if}
-				</li>
-			{/each}
-		</ol>
-	</section>
+	<PrintProcess title="From first call to first card" steps={about.process} />
 {/if}
 
 {#if about.sectors?.length || about.milestones?.length}
@@ -124,9 +126,12 @@
 			{#if about.milestones?.length}
 				<div class="lg:col-span-6 lg:col-start-7">
 					<h2 class="h2">Along the way</h2>
-					<ol class="timeline mt-8">
-						{#each about.milestones as m (m._key)}
-							<li class="relative pb-8 pl-8 last:pb-0">
+					<ol class="timeline mt-8" {@attach scrollProgress([0, 0.8], [1, 0.6])}>
+						{#each about.milestones as m, i (m._key)}
+							<li
+								class="relative pb-8 pl-8 last:pb-0"
+								style:--at={(i / Math.max(1, about.milestones.length - 1)) * 0.92 + 0.02}
+							>
 								<span class="dot" aria-hidden="true"></span>
 								<p class="num text-sm font-semibold text-cyan">{m.year}</p>
 								<h3 class="mt-1 text-lg font-semibold">{m.title}</h3>
@@ -148,56 +153,109 @@
 />
 
 <style>
-	.steps {
-		display: grid;
-		gap: 2.5rem;
+	/* Headline: each word rises out of its own mask, one after another */
+	.word {
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: top;
+		padding-bottom: 0.08em;
+		margin-bottom: -0.08em;
 	}
-	@media (min-width: 768px) {
-		.steps {
-			grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-			gap: 2rem;
+	.word > span {
+		display: inline-block;
+		animation: rise 900ms var(--ease-out) both;
+		animation-delay: calc(120ms + var(--i) * 55ms);
+	}
+	@keyframes rise {
+		from {
+			transform: translateY(105%);
 		}
 	}
-	.step {
-		position: relative;
+	.intro {
+		animation: fade-up 900ms var(--ease-out) 500ms both;
 	}
-	/* The card path: a line running between the numbered stations */
-	@media (min-width: 768px) {
-		.step::before {
-			content: '';
-			position: absolute;
-			top: 1.25rem;
-			left: 3.25rem;
-			right: -1rem;
-			height: 1px;
-			background: var(--color-line-strong);
-		}
-		.step:last-child::before {
-			display: none;
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
 		}
 	}
-	.n {
-		display: grid;
-		place-items: center;
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 50%;
-		border: 1.5px solid var(--color-ink);
-		font-weight: 620;
-		background: var(--color-paper);
+
+	/* Lead image: a narrow window that opens to full width while the photo
+	   inside settles from a slight zoom */
+	.lead {
+		--progress: 1;
+		aspect-ratio: 21 / 9;
+		overflow: hidden;
+		border-radius: var(--radius-lg);
+		background: var(--color-shade);
+		clip-path: inset(
+			0 calc((1 - var(--progress)) * 9%) round calc(var(--radius-lg) + (1 - var(--progress)) * 24px)
+		);
 	}
+	.lead-img {
+		height: 100%;
+		transform: scale(calc(1 + (1 - var(--progress)) * 0.14));
+		will-change: transform;
+	}
+
+	/* Timeline: the line draws itself as you scroll and each milestone's dot
+	   fills once the line has reached it */
 	.timeline {
-		border-left: 1px solid var(--color-line-strong);
+		--progress: 1;
+		position: relative;
 		margin-left: 0.3125rem;
+	}
+	.timeline::before,
+	.timeline::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		margin-left: -1px;
+		background: var(--color-line);
+	}
+	.timeline::after {
+		background: linear-gradient(
+			var(--color-process-cyan),
+			var(--color-holo-violet),
+			var(--color-process-magenta)
+		);
+		transform-origin: top;
+		transform: scaleY(var(--progress));
 	}
 	.dot {
 		position: absolute;
-		left: -0.375rem;
+		z-index: 1;
+		left: -0.4375rem;
 		top: 0.3125rem;
-		width: 0.75rem;
-		height: 0.75rem;
+		width: 0.875rem;
+		height: 0.875rem;
 		border-radius: 50%;
 		background: var(--color-paper);
-		border: 2px solid var(--color-cyan);
+		border: 2px solid var(--color-line-strong);
+		transition:
+			background-color var(--dur-3) var(--ease-out),
+			border-color var(--dur-3) var(--ease-out),
+			transform var(--dur-3) var(--ease-spring);
+	}
+	/* Filled once the line passes this milestone: 0 before, 1 after */
+	.dot::after {
+		content: '';
+		position: absolute;
+		inset: -2px;
+		border-radius: 50%;
+		background: var(--color-process-magenta);
+		box-shadow: 0 0 0 4px rgb(228 0 124 / 0.15);
+		opacity: clamp(0, (var(--progress) - var(--at)) * 30, 1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.word > span,
+		.intro {
+			animation: none;
+		}
 	}
 </style>

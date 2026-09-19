@@ -17,6 +17,8 @@ import type { OGLRenderingContext } from 'ogl';
 export interface ReelItem {
 	image: string;
 	text: string;
+	/** Colour behind transparent artwork; defaults to the placeholder colour. */
+	background?: string;
 }
 
 export interface ReelOptions {
@@ -232,7 +234,7 @@ class Card {
 		this.img.crossOrigin = 'anonymous';
 		this.img.decoding = 'async';
 		this.img.onload = () => {
-			texture.image = coverCanvas(this.img, opts.aspect, opts.placeholderColor);
+			texture.image = coverCanvas(this.img, opts.aspect, item.background ?? opts.placeholderColor);
 			this.loaded = true;
 		};
 		// WebGL can only use images served with CORS headers. For Sanity that
