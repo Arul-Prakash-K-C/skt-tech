@@ -160,13 +160,13 @@
 			{/if}
 			<Button href="/contact" size="sm" class="hidden sm:inline-flex">Request a quote</Button>
 			<button
-				class="grid size-10 place-items-center rounded-sm text-ink transition-colors hover:bg-shade lg:hidden"
+				class="grid size-10 place-items-center rounded-[12px] bg-ink text-white transition-transform active:scale-95 lg:hidden"
 				aria-label="Open menu"
 				aria-haspopup="dialog"
 				aria-expanded={mobileOpen}
 				onclick={() => (mobileOpen = true)}
 			>
-				<Icon name="menu" size={22} />
+				<Icon name="menu" size={20} />
 			</button>
 		</div>
 	</div>
@@ -206,6 +206,18 @@
 	.scrolled {
 		border-bottom-color: var(--color-line);
 		background: rgb(255 255 255 / 0.9);
+	}
+	/* Backdrop blur on a sticky bar repaints every scroll frame, which
+	   stutters on phones: small screens get a near-opaque bar instead. */
+	@media (width < 64rem) {
+		.header {
+			backdrop-filter: none;
+			-webkit-backdrop-filter: none;
+			background: rgb(243 245 246 / 0.97);
+		}
+		.scrolled {
+			background: rgb(255 255 255 / 0.97);
+		}
 	}
 
 	.menu {
