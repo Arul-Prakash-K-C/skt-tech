@@ -2,9 +2,11 @@
 	interface Props {
 		name?: string;
 		inverse?: boolean;
+		/** Mark only, no wordmark */
+		compact?: boolean;
 	}
 
-	let { name = 'SKT Technologies', inverse = false }: Props = $props();
+	let { name = 'SKT Technologies', inverse = false, compact = false }: Props = $props();
 
 	// "SKT Technologies" → "SKT" + "Technologies"
 	const parts = $derived.by(() => {
@@ -31,10 +33,12 @@
 		<rect x="15" y="9" width="3" height="10" rx="1" fill="#00a3e0" />
 		<rect x="19.5" y="9" width="3" height="10" rx="1" fill="currentColor" />
 	</svg>
-	<span class="word">
-		<span class="first">{parts.first}</span>
-		{#if parts.rest}<span class="rest">{parts.rest}</span>{/if}
-	</span>
+	{#if !compact}
+		<span class="word">
+			<span class="first">{parts.first}</span>
+			{#if parts.rest}<span class="rest">{parts.rest}</span>{/if}
+		</span>
+	{/if}
 </span>
 
 <style>

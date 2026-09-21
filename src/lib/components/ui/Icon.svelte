@@ -1,6 +1,10 @@
 <script lang="ts" module>
 	const PATHS = {
 		menu: 'M4 7h16M4 12h16M4 17h16',
+		grid: 'M5 5h5v5H5zM14 5h5v5h-5zM5 14h5v5H5zM14 14h5v5h-5z',
+		tag: 'M4 4h7l9 9-7 7-9-9V4Zm4.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z',
+		image: 'M4 5h16v14H4zM4 16l5-5 4 4 2-2 5 5M15.5 9.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z',
+		info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-10v5.5M12 7.5v.5',
 		close: 'M6 6l12 12M18 6L6 18',
 		search: 'M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm5-2 4 4',
 		'chevron-left': 'M15 5l-7 7 7 7',
