@@ -1,4 +1,6 @@
 <script lang="ts">
+	import logoUrl from '$lib/assets/skt-logo.webp';
+
 	interface Props {
 		name?: string;
 		inverse?: boolean;
@@ -16,23 +18,7 @@
 </script>
 
 <span class={['logo', inverse && 'inverse']}>
-	<!-- Mark: four ribbon panels (Y, M, C, K) laid like a card edge -->
-	<svg class="mark" viewBox="0 0 28 28" aria-hidden="true">
-		<rect
-			x="2"
-			y="5"
-			width="24"
-			height="18"
-			rx="3"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
-		/>
-		<rect x="6" y="9" width="3" height="10" rx="1" fill="#ffd100" />
-		<rect x="10.5" y="9" width="3" height="10" rx="1" fill="#e4007c" />
-		<rect x="15" y="9" width="3" height="10" rx="1" fill="#00a3e0" />
-		<rect x="19.5" y="9" width="3" height="10" rx="1" fill="currentColor" />
-	</svg>
+	<img class="mark" src={logoUrl} alt="" width="90" height="90" decoding="async" />
 	{#if !compact}
 		<span class="word">
 			<span class="first">{parts.first}</span>
@@ -52,8 +38,10 @@
 		color: white;
 	}
 	.mark {
-		width: 1.875rem;
-		height: 1.875rem;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 10px;
+		flex: none;
 	}
 	.word {
 		display: flex;
