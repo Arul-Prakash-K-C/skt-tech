@@ -1,6 +1,7 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
+	import appleTouchIcon from '$lib/assets/apple-touch-icon.png';
 	import fontUrl from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 	import { onMount } from 'svelte';
 	import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
@@ -43,7 +44,9 @@
 </script>
 
 <svelte:head>
+	<link rel="icon" href="/favicon.ico" sizes="any" />
 	<link rel="icon" href={favicon} type="image/svg+xml" />
+	<link rel="apple-touch-icon" href={appleTouchIcon} />
 	<link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin="anonymous" />
 </svelte:head>
 
