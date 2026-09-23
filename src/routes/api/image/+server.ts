@@ -15,7 +15,7 @@ import type { RequestHandler } from './$types';
  * used as an open proxy. Sanity image URLs are immutable, so responses cache
  * for a year at the browser and the edge.
  */
-export const GET: RequestHandler = async ({ url, fetch }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	const src = url.searchParams.get('src') ?? '';
 	let target: URL;
 	try {
@@ -35,12 +35,32 @@ export const GET: RequestHandler = async ({ url, fetch }) => {
 		error(400, 'Only images from this site’s Sanity project can be loaded');
 	}
 
-	const upstream = await fetch(target.toString(), {
-		headers: { accept: 'image/*,*/*' }
-	}).catch(() => null);
+	const upstream = await globalThis
+		.fetch(target.toString(), {
+			headers: {
+				accept: 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+				'user-agent': 'SKT-Technologies/1.0 (+https://skttechnologies.vercel.app)'
+			}
+		})
+		.catch((cause) => {
+			console.error('[api/image] Sanity CDN fetch failed', {
+				host: target.hostname,
+				pathname: target.pathname,
+				cause: cause instanceof Error ? cause.message : String(cause)
+			});
+			return null;
+		});
 
-	if (!upstream?.ok || !upstream.body)
+	if (!upstream?.ok || !upstream.body) {
+		console.error('[api/image] Sanity CDN returned an unusable image response', {
+			host: target.hostname,
+			pathname: target.pathname,
+			status: upstream?.status ?? null,
+			contentType: upstream?.headers.get('content-type') ?? null,
+			hasBody: Boolean(upstream?.body)
+		});
 		error(upstream?.status === 404 ? 404 : 502, 'Image unavailable');
+	}
 
 	const type = upstream.headers.get('content-type') ?? '';
 	if (!type.startsWith('image/')) error(502, 'Unexpected response from the image CDN');
