@@ -1,4 +1,5 @@
 import { createImageUrlBuilder } from '@sanity/image-url';
+import { asset, resolve } from '$app/paths';
 import { sanityConfig } from './config';
 import type { Img } from './types';
 
@@ -16,10 +17,15 @@ interface UrlOptions {
 	quality?: number;
 }
 
+function localAssetUrl(url = '') {
+	if (!url.startsWith('/') || url.startsWith('//')) return url;
+	return asset(url as Parameters<typeof asset>[0]);
+}
+
 /** Build a CDN URL for a Sanity image, or pass a static fallback URL through unchanged. */
 export function imageUrl(image: Img | undefined, { width, aspect, quality = 78 }: UrlOptions) {
 	if (!image) return '';
-	if (!image.ref) return image.url;
+	if (!image.ref) return localAssetUrl(image.url);
 
 	let b = builder
 		.image({
@@ -60,6 +66,6 @@ export function imageRatio(image: Img | undefined, fallback = 1.5) {
 export function textureUrl(image: Img | undefined, opts: UrlOptions) {
 	const url = imageUrl(image, opts);
 	return url.startsWith('https://cdn.sanity.io/')
-		? `/api/image?src=${encodeURIComponent(url)}`
-		: url;
+		? `${resolve('/api/image')}?src=${encodeURIComponent(url)}`
+		: localAssetUrl(url);
 }

@@ -117,7 +117,16 @@
 				<span>© {year} {settings.legalName ?? settings.companyName}</span>
 				{#if settings.gstin}<span class="num">GSTIN {settings.gstin}</span>{/if}
 			</p>
-			{#if settings.footerNote}<p class="max-w-xl md:text-right">{settings.footerNote}</p>{/if}
+			<p class="max-w-xl md:text-right">
+				<a
+					class="credit"
+					href="https://www.symphozen.com"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Powered by SymphoZen Labs
+				</a>
+			</p>
 		</div>
 	</div>
 </footer>
@@ -157,5 +166,12 @@
 	}
 	.contact:hover {
 		color: #8fd3ee;
+	}
+	.credit {
+		color: inherit;
+		transition: color var(--dur-2) var(--ease-out);
+	}
+	.credit:hover {
+		color: white;
 	}
 </style>

@@ -170,6 +170,14 @@ function labelCanvas(text: string, font: string, color: string, maxRatio: number
 
 let warned = false;
 
+function shouldUseCors(url: string) {
+	try {
+		return new URL(url, location.href).origin !== location.origin;
+	} catch {
+		return false;
+	}
+}
+
 class Card {
 	group = new Transform();
 	plane: Mesh;
@@ -231,20 +239,19 @@ class Card {
 		this.label.setParent(this.group);
 		this.group.setParent(scene);
 
-		this.img.crossOrigin = 'anonymous';
+		if (shouldUseCors(item.image)) this.img.crossOrigin = 'anonymous';
 		this.img.decoding = 'async';
 		this.img.onload = () => {
 			texture.image = coverCanvas(this.img, opts.aspect, item.background ?? opts.placeholderColor);
+			texture.needsUpdate = true;
 			this.loaded = true;
 		};
-		// WebGL can only use images served with CORS headers. For Sanity that
-		// means the site's origin must be listed under API → CORS origins.
 		this.img.onerror = () => {
 			if (warned) return;
 			warned = true;
 			console.warn(
 				`CircularGallery: could not load ${item.image} as a WebGL texture. ` +
-					`If it is a Sanity image, add ${location.origin} under API → CORS origins at sanity.io/manage.`
+					`Check that the URL is reachable from this page and returns an image response.`
 			);
 		};
 		this.img.src = item.image;

@@ -52,6 +52,7 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 			'content-type': type,
 			'cache-control': 'public, max-age=31536000, immutable',
 			vary: 'Accept',
+			'access-control-allow-origin': '*',
 			'x-content-type-options': 'nosniff',
 			// SVGs can carry script; if someone opens this URL directly, run nothing
 			'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'; sandbox"
