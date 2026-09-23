@@ -15,7 +15,7 @@ import type { RequestHandler } from './$types';
  * used as an open proxy. Sanity image URLs are immutable, so responses cache
  * for a year at the browser and the edge.
  */
-export const GET: RequestHandler = async ({ url, request, fetch }) => {
+export const GET: RequestHandler = async ({ url, fetch }) => {
 	const src = url.searchParams.get('src') ?? '';
 	let target: URL;
 	try {
@@ -35,10 +35,8 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 		error(400, 'Only images from this site’s Sanity project can be loaded');
 	}
 
-	const upstream = await fetch(target, {
-		// Pass Accept through so auto=format still negotiates WebP/AVIF
-		headers: { accept: request.headers.get('accept') ?? 'image/*' },
-		signal: AbortSignal.timeout(10_000)
+	const upstream = await fetch(target.toString(), {
+		headers: { accept: 'image/*,*/*' }
 	}).catch(() => null);
 
 	if (!upstream?.ok || !upstream.body)
